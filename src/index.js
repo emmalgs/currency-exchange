@@ -24,12 +24,12 @@ function getCurrency(baseCode, targetCode, amount) {
     });
 }
 
-function getCountryCodes(code1, code2) {
+function getCountryCodes(code) {
   CurrencyService.getCountryCodes()
     .then(response => {
       if (response.supported_codes) {
         let codes = addCountryCodes(response.supported_codes);
-        console.log(checkCountryInput(code1, code2, codes))
+        checkCountryInput(code, codes);
       } else {
         console.log(response);
       }
@@ -47,11 +47,9 @@ function addCountryCodes(result) {
   return countryCodes;
 }
 
-function checkCountryInput(code1, code2, ctryCodes) {
+function checkCountryInput(code, ctryCodes) {
   let codes = Object.keys(ctryCodes.codes);
-  console.log(codes);
-  console.log(`basecode: ${code1}`)
-  console.log(`targetcode: ${code2}`);
+  return Array.from(codes).includes(code)
 }
 
 // UI Logic
@@ -71,10 +69,16 @@ function handleSubmitEvent(e) {
   const targetCode = document.querySelector("#target-code").value;
   const amount = parseFloat(document.querySelector("#amount").value);
   getCurrency(baseCode, targetCode, amount);
-  getCountryCodes(baseCode, targetCode);
+  getCountryCodes(baseCode);
 }
 
 
 window.addEventListener("load", function() {
   this.document.querySelector("form").addEventListener("submit", handleSubmitEvent);
-})
+  const inputs = this.document.querySelectorAll("input[type='text']")
+  inputs.forEach(input => {
+    input.addEventListener("keyup", function(event) {
+      console.log(event.keyCode)
+    });
+  });
+});
