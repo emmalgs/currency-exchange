@@ -38,6 +38,9 @@ describe('CountryCodes', () => {
   });
 
   test('it should add a country and code when method addCode is called', () => {
-    
-  })
+    countryCodes.addCode(countryInfo);
+    expect(countryCodes.codes).toEqual({ USD: 'United States'});
+  });
+
+  
 })

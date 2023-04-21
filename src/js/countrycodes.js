@@ -1,7 +1,11 @@
 export class CountryCodes {
   constructor() {
-    
+    this.codes = {}
   }
+}
+
+CountryCodes.prototype.addCode = function(country) {
+  this.codes[country.code] = country.country;
 }
 
 export class CountryInfo {
