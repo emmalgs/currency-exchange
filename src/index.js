@@ -24,12 +24,12 @@ function getCurrency(baseCode, targetCode, amount) {
     });
 }
 
-function getCountryCodes(code) {
+function getCountryCodes() {
   CurrencyService.getCountryCodes()
     .then(response => {
       if (response.supported_codes) {
         let codes = addCountryCodes(response.supported_codes);
-        checkCountryInput(code, codes);
+        checkCountryInput(codes);
       } else {
         console.log(response);
       }
@@ -47,14 +47,12 @@ function addCountryCodes(result) {
   return countryCodes;
 }
 
-function checkCountryInput(code, ctryCodes) {
+function checkCountryInput(ctryCodes) {
   let codes = Object.keys(ctryCodes.codes);
   let codesArray = Array.from(codes)
   codesArray.forEach(element => {
-    if (element.includes(code)) {
-      console.log(element)
-    }
-  })
+    printCodeInputs(element, ctryCodes)
+  });
 }
 
 
@@ -69,6 +67,16 @@ function printResults(response, amount) {
   outputDiv.querySelector(".exg-result").innerText = `Result: $${displayBigNums(financial(response.conversion_result))}`;
 }
 
+function printCodeInputs(code, countryCodes) {
+  const datalist = document.querySelectorAll("datalist")
+  datalist.forEach(list => {
+    let option = document.createElement("option")
+    option.value = code;
+    option.innerText = countryCodes.codes[code];
+    list.append(option)
+  })
+}
+
 function handleSubmitEvent(e) {
   e.preventDefault();
   const baseCode = document.querySelector("#base-code").value;
@@ -80,16 +88,5 @@ function handleSubmitEvent(e) {
 
 window.addEventListener("load", function () {
   this.document.querySelector("form").addEventListener("submit", handleSubmitEvent);
-  let baseCodeInput = ''
-  this.document.querySelector("#base-code").addEventListener("keyup", function (event) {
-    baseCodeInput += String.fromCharCode(event.keyCode).toUpperCase()
-    getCountryCodes(baseCodeInput);
-  });
-  console.log(baseCodeInput)
-  let targetCodeInput = ''
-  this.document.querySelector("#target-code").addEventListener("keyup", function (event) {
-    targetCodeInput += String.fromCharCode(event.keyCode).toUpperCase()
-    getCountryCodes(targetCodeInput);
-  });
-  console.log(targetCodeInput)
+  getCountryCodes();
 });

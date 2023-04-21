@@ -9,12 +9,22 @@
 <body>
   <h1>Currency Exchange Rate</h1>
   <form id="input">
-    <label for="base-code">Exchange From: </label>
-    <input type="text" name="base-code" id="base-code">
-    <label for="target-code">To: </label>
-    <input type="text" name="target-code" id="target-code">
-    <label for="amount">Amount: </label>
-    <input type="number" name="amount" id="amount">
+    <div class="field1">
+      <label for="base-code">Exchange From: </label>
+      <input type="text" name="base-code" list="base-code">
+      <datalist id="base-code">
+      </datalist>
+    </div>
+    <div class="field2">
+      <label for="target-code">To: </label>
+      <input type="text" name="target-code" list="target-code">
+      <datalist id="target-code">
+      </datalist>
+    </div>
+    <div class="field3">
+      <label for="amount">Amount: </label>
+      <input type="number" name="amount" id="amount">
+    </div>
     <button type="submit">Get Rate</button>
   </form>
   <div id="output">
