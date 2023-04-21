@@ -1,6 +1,6 @@
 export class CountryCodes {
   constructor() {
-    this.codes = {}
+    this.codes = {};
   }
 }
 
