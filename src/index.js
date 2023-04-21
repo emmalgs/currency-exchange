@@ -1,3 +1,4 @@
+import './css/styles.css'
 import CurrencyService from "./js/currency-service";
 import { CountryCodes, CountryInfo } from "./js/countrycodes";
 
