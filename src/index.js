@@ -1,4 +1,4 @@
-import './css/styles.css'
+import './css/styles.css';
 import CurrencyService from "./js/currency-service";
 import { CountryCodes, CountryInfo } from "./js/countrycodes";
 
@@ -17,44 +17,56 @@ function displayBigNums(number) {
 function getCurrency(baseCode, targetCode, amount) {
   CurrencyService.getExchangeRate(baseCode, targetCode, amount)
     .then(response => {
-      if (response.base_code) {
-        printResults(response, amount);
-      } else {
-        printError(response);
+      if (response instanceof Error) {
+        const errorMessage = `Something is not right`;
+        throw new Error(errorMessage);
       }
+      printResults(response, amount);
+    })
+    .catch(error => {
+      printError(error);
     });
 }
 
 function getCountryCodes() {
   CurrencyService.getCountryCodes()
     .then(response => {
+      if (response instanceof Error) {
+        const errorMessage = `Something is not right`;
+        throw new Error(errorMessage);
+      }
       if (response.supported_codes) {
         let codes = addCountryCodes(response.supported_codes);
         printCountryCodeOptions(codes);
-      } else {
-        printError(response);
       }
+    })
+    .catch(error => {
+      printError(error);
     });
 }
 
 function validateCode(code) {
   CurrencyService.getCountryCodes()
     .then(response => {
+      if (response instanceof Error) {
+        const errorMessage = `Oh no! Somethings wrong`;
+        throw new Error(errorMessage);
+      }
       const codesList = addCountryCodes(response.supported_codes);
       return codesList;
     })
     .then(response2 => {
-      const codes = Object.keys(response2.codes)
+      const codes = Object.keys(response2.codes);
       code.forEach(element => {
         if (!codes.includes(element)) {
           const errorMessage = `Sorry, ${element} is not a valid code`;
-          throw new Error(errorMessage)
+          throw new Error(errorMessage);
         }
       });
       printCurrencyNames([response2.codes[code[0]], response2.codes[code[1]]]);
     })
     .catch(error => {
-      printError(error)
+      printError(error);
     });
 }
 
@@ -116,12 +128,24 @@ function printCodeInputs(code, countryCodes) {
 }
 
 function printError(error) {
-  document.querySelector(".error").innerText = `${error}`
+  resetOutput();
+  document.querySelector(".error").innerText = `${error}`;
+}
 
+function resetOutput() {
+  document.querySelector(".base-code").innerText = null;
+  document.querySelector(".amount-entered").innerText = null;
+  document.querySelector(".exg-rate").innerText = null;
+  document.querySelector(".exg-result").innerText = null;
+}
+
+function resetError() {
+  document.querySelector(".error").innerText = null;
 }
 
 function handleSubmitEvent(e) {
   e.preventDefault();
+  resetError();
   const baseCode = checkTextInputs(document.querySelector("input[list='base-code']").value);
   const targetCode = checkTextInputs(document.querySelector("input[list='target-code']").value);
   let amount = document.querySelector("#amount").value;
