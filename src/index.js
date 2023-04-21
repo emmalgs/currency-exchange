@@ -37,12 +37,25 @@ function getCountryCodes() {
     });
 }
 
-function getCurrencyNames(code1, code2) {
+function validateCode(code) {
   CurrencyService.getCountryCodes()
-  .then(response => {
-    let codes = addCountryCodes(response.supported_codes);
-    printCurrencyNames(codes.codes[code1], codes.codes[code2]);
-  });
+    .then(response => {
+      const codesList = addCountryCodes(response.supported_codes);
+      return codesList;
+    })
+    .then(response2 => {
+      const codes = Object.keys(response2.codes)
+      code.forEach(element => {
+        if (!codes.includes(element)) {
+          const errorMessage = `Sorry, ${element} is not a valid code`;
+          throw new Error(errorMessage)
+        }
+      });
+      printCurrencyNames([response2.codes[code[0]], response2.codes[code[1]]]);
+    })
+    .catch(error => {
+      printError(error)
+    });
 }
 
 function addCountryCodes(result) {
@@ -80,9 +93,9 @@ function checkNumberInputs(input) {
 
 // UI Logic
 
-function printCurrencyNames(base, target) {
+function printCurrencyNames(code) {
   const outputDiv = document.querySelector("#output");
-  outputDiv.querySelector(".base-code").innerText = `Conversion for ${base.toUpperCase()} to ${target.toUpperCase()}`;
+  outputDiv.querySelector(".base-code").innerText = `Conversion for ${code[0].toUpperCase()} to ${code[1].toUpperCase()}`;
 }
 
 function printResults(response, amount) {
@@ -104,6 +117,7 @@ function printCodeInputs(code, countryCodes) {
 
 function printError(error) {
   document.querySelector(".error").innerText = `${error}`
+
 }
 
 function handleSubmitEvent(e) {
@@ -118,7 +132,7 @@ function handleSubmitEvent(e) {
     document.querySelector("#amount").value = amount;
   } else {
     getCurrency(baseCode, targetCode, amount);
-    getCurrencyNames(baseCode, targetCode);
+    validateCode([baseCode, targetCode]);
   }
 }
 
