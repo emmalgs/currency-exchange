@@ -49,8 +49,14 @@ function addCountryCodes(result) {
 
 function checkCountryInput(code, ctryCodes) {
   let codes = Object.keys(ctryCodes.codes);
-  return Array.from(codes).includes(code)
+  let codesArray = Array.from(codes)
+  codesArray.forEach(element => {
+    if (element.includes(code)) {
+      console.log(element)
+    }
+  })
 }
+
 
 // UI Logic
 
@@ -69,16 +75,21 @@ function handleSubmitEvent(e) {
   const targetCode = document.querySelector("#target-code").value;
   const amount = parseFloat(document.querySelector("#amount").value);
   getCurrency(baseCode, targetCode, amount);
-  getCountryCodes(baseCode);
 }
 
 
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
   this.document.querySelector("form").addEventListener("submit", handleSubmitEvent);
-  const inputs = this.document.querySelectorAll("input[type='text']")
-  inputs.forEach(input => {
-    input.addEventListener("keyup", function(event) {
-      console.log(event.keyCode)
-    });
+  let baseCodeInput = ''
+  this.document.querySelector("#base-code").addEventListener("keyup", function (event) {
+    baseCodeInput += String.fromCharCode(event.keyCode).toUpperCase()
+    getCountryCodes(baseCodeInput);
   });
+  console.log(baseCodeInput)
+  let targetCodeInput = ''
+  this.document.querySelector("#target-code").addEventListener("keyup", function (event) {
+    targetCodeInput += String.fromCharCode(event.keyCode).toUpperCase()
+    getCountryCodes(targetCodeInput);
+  });
+  console.log(targetCodeInput)
 });
