@@ -37,6 +37,14 @@ function getCountryCodes() {
     });
 }
 
+function getCurrencyNames(code1, code2) {
+  CurrencyService.getCountryCodes()
+  .then(response => {
+    let codes = addCountryCodes(response.supported_codes);
+    printCurrencyNames(codes.codes[code1], codes.codes[code2]);
+  });
+}
+
 function addCountryCodes(result) {
   const countryCodes = new CountryCodes();
   result.forEach(element => {
@@ -72,13 +80,16 @@ function checkNumberInputs(input) {
 
 // UI Logic
 
+function printCurrencyNames(base, target) {
+  const outputDiv = document.querySelector("#output");
+  outputDiv.querySelector(".base-code").innerText = `Conversion for ${base.toUpperCase()} to ${target.toUpperCase()}`;
+}
+
 function printResults(response, amount) {
   const outputDiv = document.querySelector("#output");
-  outputDiv.querySelector(".base-code").innerText = `Base: ${response.base_code}`;
-  outputDiv.querySelector(".target-code").innerText = `Target: ${response.target_code}`;
-  outputDiv.querySelector(".amount-entered").innerText = `Amount: $${displayBigNums(financial(amount))}`;
+  outputDiv.querySelector(".amount-entered").innerText = `${response.base_code}: $${displayBigNums(financial(amount))}`;
   outputDiv.querySelector(".exg-rate").innerText = `Conversion Rate: ${response.conversion_rate}`;
-  outputDiv.querySelector(".exg-result").innerText = `Result: $${displayBigNums(financial(response.conversion_result))}`;
+  outputDiv.querySelector(".exg-result").innerText = `${response.target_code}: $${displayBigNums(financial(response.conversion_result))}`;
 }
 
 function printCodeInputs(code, countryCodes) {
@@ -107,6 +118,7 @@ function handleSubmitEvent(e) {
     document.querySelector("#amount").value = amount;
   } else {
     getCurrency(baseCode, targetCode, amount);
+    getCurrencyNames(baseCode, targetCode);
   }
 }
 
