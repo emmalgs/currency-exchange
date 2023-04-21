@@ -20,7 +20,7 @@ export default class CurrencyService {
     return fetch(`https://v6.exchangerate-api.com/v6/${process.env.API_KEY}/codes`)
       .then(response => {
         if (!response.ok) {
-          const errorMessage = `${response.status} ${response.statusText}`;
+          const errorMessage = `${response}`;
           throw new Error(errorMessage);
         }
         return response.json();
