@@ -10,6 +10,10 @@ export default class CurrencyService {
           throw new Error(errorMessage)
         }
         return response.json()
+      })
+      .catch(error => {
+        console.log(error)
+        return error
       });
   }
 }
