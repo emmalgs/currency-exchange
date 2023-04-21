@@ -3,7 +3,7 @@ import CurrencyService from "./js/currency-service";
 function getCurrency(baseCode, targetCode, amount) {
   CurrencyService.getExchangeRate(baseCode, targetCode, amount)
     .then(response => {
-      if (response.main) {
+      if (response.base_code) {
         console.log(`base code: ${response.base_code}
         target code: ${response.target_code}
         conversion rate: ${response.conversion_rate}
@@ -11,7 +11,7 @@ function getCurrency(baseCode, targetCode, amount) {
       } else {
         console.log(`error: ${response}`)
       }
-    })
+    });
 }
 
-getCurrency('ER', 'GBP', 16);
+getCurrency('EUR', 'GBP', 16);
