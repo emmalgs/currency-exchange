@@ -1,0 +1,1 @@
+// https://v6.exchangerate-api.com/v6/${process.env.API_KEY}/pair/${baseCode}/${targetCode}/${amount} this takes starting currency, what you want to exchange to, and the amount
