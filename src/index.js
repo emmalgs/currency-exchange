@@ -24,12 +24,12 @@ function getCurrency(baseCode, targetCode, amount) {
     });
 }
 
-function getCountryCodes() {
+function getCountryCodes(code1, code2) {
   CurrencyService.getCountryCodes()
     .then(response => {
       if (response.supported_codes) {
-        const supportedCodes = addCountryCodes(response.supported_codes);
-        console.log(supportedCodes)
+        let codes = addCountryCodes(response.supported_codes);
+        console.log(checkCountryInput(code1, code2, codes))
       } else {
         console.log(response);
       }
@@ -45,6 +45,13 @@ function addCountryCodes(result) {
     countryCodes.addCode(countryInfo);
   });
   return countryCodes;
+}
+
+function checkCountryInput(code1, code2, ctryCodes) {
+  let codes = Object.keys(ctryCodes.codes);
+  console.log(codes);
+  console.log(`basecode: ${code1}`)
+  console.log(`targetcode: ${code2}`);
 }
 
 // UI Logic
@@ -64,9 +71,9 @@ function handleSubmitEvent(e) {
   const targetCode = document.querySelector("#target-code").value;
   const amount = parseFloat(document.querySelector("#amount").value);
   getCurrency(baseCode, targetCode, amount);
+  getCountryCodes(baseCode, targetCode);
 }
 
-getCountryCodes();
 
 window.addEventListener("load", function() {
   this.document.querySelector("form").addEventListener("submit", handleSubmitEvent);
