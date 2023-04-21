@@ -55,6 +55,12 @@ function checkCountryInput(ctryCodes) {
   });
 }
 
+function checkTextInputs(input) {
+  if (!input || input.length > 3) {
+    return null;
+  }
+  return input;
+}
 
 // UI Logic
 
@@ -79,10 +85,17 @@ function printCodeInputs(code, countryCodes) {
 
 function handleSubmitEvent(e) {
   e.preventDefault();
-  const baseCode = document.querySelector("#base-code").value;
-  const targetCode = document.querySelector("#target-code").value;
+  const baseCode = checkTextInputs(document.querySelector("input[list='base-code']").value);
+  const targetCode = checkTextInputs(document.querySelector("input[list='target-code']").value);
   const amount = parseFloat(document.querySelector("#amount").value);
-  getCurrency(baseCode, targetCode, amount);
+  if (!baseCode || !targetCode) {
+    console.log(baseCode);
+    console.log(targetCode)
+    document.querySelector("input[list='base-code']").value = baseCode;
+    document.querySelector("input[list='target-code']").value = targetCode;
+  } else {
+    getCurrency(baseCode, targetCode, amount);
+  }
 }
 
 
