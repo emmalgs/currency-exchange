@@ -24,13 +24,24 @@ A currency conversion webpage that accesses up-to-date currency exchange APIs an
 
 ## Setup/Installation Requirements
 
-* _Clone this repository to your desktop_
-* _Navigate to the root directory in your terminal and run ```$ npm install```_
-* _Add any additional dependencies by running in the root directory ```$ npm install [package-name]```_
-  - _include ```--save-dev``` flag if its a development dependency_
-  - _list the package version if you want, for example: ```$ npm install webpack@4.46.0 --save-dev```_
-  - _include ```--save-exact``` to save the exact version, for example ```$ npm install webpack@4.46.0 --save-dev --save-exact```_
-* _After all packages are installed, to start the project's server, in the root directory in your terminal run ```$ npm run start```_
+* Clone this repository to your desktop
+* Navigate to the root directory in your terminal and run 
+```
+$ npm install
+```
+* In the root directory, create a file called .env
+```
+$ touch .env
+```
+* Go to [Exchange Rate API](https://www.exchangerate-api.com/) and create a free account to access an API token.
+* With your API token, navigate to your .env folder and save your token to API_KEY. 
+```
+API_KEY={YOUR API TOKEN}
+```
+* After all packages are installed and your personal API token is saved to the .env file, to start the project's server, in the root directory in your terminal run 
+```
+$ npm run start
+```
 
 ## Known Bugs
 
