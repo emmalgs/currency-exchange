@@ -1,8 +1,12 @@
 # Currency Conversion
 
+#### By Emma Gerigscott
+
+![gif of webpage in action](./src/assets/images/currency.gif)
+
 #### Select a currency to see the current conversion rate
 
-#### By Emma Gerigscott
+
 
 ## Technologies Used
 
