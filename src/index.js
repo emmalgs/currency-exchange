@@ -2,6 +2,8 @@ import './css/styles.css';
 import CurrencyService from "./js/currency-service";
 import { CountryCodes, CountryInfo } from "./js/countrycodes";
 
+const apiKey = process.env.API_KEY;
+
 // Utility Logic
 
 function financial(number) {
@@ -15,7 +17,7 @@ function displayBigNums(number) {
 // Business Logic
 
 function getCurrency(baseCode, targetCode, amount) {
-  CurrencyService.getExchangeRate(baseCode, targetCode, amount)
+  CurrencyService.getExchangeRate(baseCode, targetCode, amount, apiKey)
     .then(response => {
       if (response instanceof Error) {
         const errorMessage = `Something is not right`;
@@ -29,7 +31,7 @@ function getCurrency(baseCode, targetCode, amount) {
 }
 
 function getCountryCodes() {
-  CurrencyService.getCountryCodes()
+  CurrencyService.getCountryCodes(apiKey)
     .then(response => {
       if (response instanceof Error) {
         const errorMessage = `Something is not right`;
